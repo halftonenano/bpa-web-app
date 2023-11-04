@@ -38,6 +38,7 @@ export type AuthSystemFields<T = never> = {
 export type CoursesRecord = {
 	description: string
 	name: string
+	public?: boolean
 }
 
 export type EnrollmentsRecord = {
