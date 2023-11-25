@@ -1,4 +1,5 @@
 import { serverPb } from '@/lib/pocketbase/server';
+import { simplifyToSlug } from '@/lib/utils';
 import { BookOpenCheck } from 'lucide-react';
 import Link from 'next/link';
 
@@ -13,10 +14,7 @@ export default async function Page() {
       <div className="flex flex-col gap-16 p-10 pt-40">
         {courses.map((course) => (
           <Link
-            href={`/courses/${course.id}/${course.name
-              .toLowerCase()
-              .replace(' ', '-')
-              .replace(/[^0-9a-zA-Z_-]/g, '')}`}
+            href={`/courses/${course.id}/${simplifyToSlug(course.name)}`}
             key={course.id}
           >
             <div className="group flex gap-7 rounded-md border p-7 shadow-sm transition duration-200 hover:bg-neutral-100">

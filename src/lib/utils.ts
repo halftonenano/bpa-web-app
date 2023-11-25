@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function simplifyToSlug(string: string) {
-  return string;
+  return "";
   // return string
   //   .toLowerCase()
   //   .replace(' ', '-')
