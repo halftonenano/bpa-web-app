@@ -3,5 +3,5 @@
 import { Toaster } from 'react-hot-toast';
 
 export default function ToasterComponent() {
-  return <Toaster />;
+  return <Toaster containerClassName="font-bold text-sm" />;
 }
