@@ -50,6 +50,7 @@ export type CoursesRecord = {
 	cover?: string
 	description: string
 	name: string
+	pages?: RecordIdString[]
 	public?: boolean
 }
 
@@ -61,6 +62,7 @@ export type EnrollmentsRecord = {
 export type PagesRecord = {
 	content?: string
 	course: RecordIdString
+	quiz?: RecordIdString
 	title: string
 	video?: string
 }

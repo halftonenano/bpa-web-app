@@ -35,7 +35,7 @@ export default async function Layout({
                 <Button asChild variant="link">
                   <Link
                     key={page.id}
-                    href={`/${course.id}/article/${page.id}/${simplifyToSlug(
+                    href={`/${course.id}/page/${page.id}/${simplifyToSlug(
                       page.title,
                     )}`}
                   >

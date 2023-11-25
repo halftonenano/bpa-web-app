@@ -62,12 +62,12 @@ export default async function Page({
                 <h1 className="text-4xl font-bold">{course.name}</h1>
                 {isTeacher && (
                   <Link
-                    href={`/edit/course/${courseid}`}
+                    href={`/studio/course/${courseid}`}
                     className={
                       buttonVariants({ variant: 'outline' }) + ' flex gap-3'
                     }
                   >
-                    <Pencil size={18} /> Edit
+                    <Pencil size={18} /> Edit in Studio
                   </Link>
                 )}
               </div>
@@ -83,17 +83,12 @@ export default async function Page({
               pages.map((page) => (
                 <Link
                   key={page.id}
-                  href={`/${course.id}/article/${page.id}/${simplifyToSlug(
+                  href={`/${course.id}/page/${page.id}/${simplifyToSlug(
                     page.title,
                   )}`}
                 >
                   <li className="flex items-center justify-between rounded px-5 py-2 transition hover:bg-neutral-200">
                     {page.title}
-                    {isTeacher && (
-                      <Button asChild variant="outline">
-                        <Link href={`/edit/article/${page.id}`}>Edit</Link>
-                      </Button>
-                    )}
                   </li>
                 </Link>
               ))

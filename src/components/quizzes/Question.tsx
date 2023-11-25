@@ -16,7 +16,7 @@ export default function Question({
   const [correct, setCorrect] = useState('');
 
   return (
-    <Card>
+    <div className='border rounded-md'>
       <CardHeader>
         <CardTitle>{question.question}</CardTitle>
       </CardHeader>
@@ -54,6 +54,6 @@ export default function Question({
           ))}
         </ul>
       </CardContent>
-    </Card>
+    </div>
   );
 }
