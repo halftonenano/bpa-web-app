@@ -12,6 +12,8 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 
+export const runtime = 'edge';
+
 export default function Page({
   params: { pageid },
 }: {

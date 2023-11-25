@@ -1,10 +1,11 @@
-import { initAdminPb } from '@/lib/pocketbase/admin';
-import { serverPb } from '@/lib/pocketbase/server';
-import { QuestionsResponse, QuizzesResponse } from '@/lib/types/pocketbase';
-import { notFound } from 'next/navigation';
-import { unset } from 'lodash-es';
 import Quiz from '@/components/quizzes/Quiz';
 import { QuizType } from '@/components/quizzes/QuizType';
+import { initAdminPb } from '@/lib/pocketbase/admin';
+import { serverPb } from '@/lib/pocketbase/server';
+import { unset } from 'lodash-es';
+import { notFound } from 'next/navigation';
+
+export const runtime = 'edge';
 
 export default async function Page({
   params: { quizid },

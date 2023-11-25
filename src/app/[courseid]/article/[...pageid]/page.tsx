@@ -1,8 +1,9 @@
+import YoutubeEmbed from '@/components/YoutubeEmbed';
+import '@/components/pages/markdown.css';
 import { serverPb } from '@/lib/pocketbase/server';
 import { marked } from 'marked';
-import '@/components/pages/markdown.css';
-import YouTube from 'react-youtube';
-import YoutubeEmbed from '@/components/YoutubeEmbed';
+
+export const runtime = 'edge';
 
 export default async function Page({
   params: { pageid },

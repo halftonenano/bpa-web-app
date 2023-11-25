@@ -1,14 +1,5 @@
-import EnrollButton from '@/components/courses/EnrollButton';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import { serverPb } from '@/lib/pocketbase/server';
-import { BookOpenCheck, ExternalLink } from 'lucide-react';
+import { BookOpenCheck } from 'lucide-react';
 import Link from 'next/link';
 
 export const runtime = 'edge';

@@ -1,22 +1,23 @@
 'use client';
 
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { pb } from '@/lib/pocketbase/client';
-import { serverPb } from '@/lib/pocketbase/server';
 import {
   CoursesResponse,
   PagesRecord,
   PagesResponse,
 } from '@/lib/types/pocketbase';
-import { cn, simplifyToSlug } from '@/lib/utils';
-import { BookOpenCheck, Loader2, Pencil } from 'lucide-react';
+import { simplifyToSlug } from '@/lib/utils';
+import { BookOpenCheck, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import ReactTextareaAutosize from 'react-textarea-autosize';
+
+export const runtime = 'edge';
 
 export default function Page({
   params: { courseid },

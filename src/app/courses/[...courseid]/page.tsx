@@ -1,8 +1,10 @@
 import { Button, buttonVariants } from '@/components/ui/button';
 import { serverPb } from '@/lib/pocketbase/server';
-import { cn, simplifyToSlug } from '@/lib/utils';
+import { simplifyToSlug } from '@/lib/utils';
 import { BookOpenCheck, Pencil } from 'lucide-react';
 import Link from 'next/link';
+
+export const runtime = 'edge';
 
 export default async function Page({
   params: { courseid },
@@ -52,7 +54,7 @@ export default async function Page({
                 className="grid h-60 w-60 place-items-center rounded-md shadow-lg"
                 style={{ backgroundColor: course.color }}
               >
-                <BookOpenCheck size={60} className='opacity-70' />
+                <BookOpenCheck size={60} className="opacity-70" />
               </div>
             )}
             <div>
