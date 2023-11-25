@@ -8,9 +8,9 @@ export const runtime = 'edge';
 export default async function Page({
   params: { pageid },
 }: {
-  params: { pageid: string[] };
+  params: { pageid: string };
 }) {
-  const page = await serverPb().collection('pages').getOne(pageid[0]);
+  const page = await serverPb().collection('pages').getOne(pageid);
 
   console.log(page);
 

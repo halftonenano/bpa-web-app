@@ -9,21 +9,21 @@ export const runtime = 'edge';
 export default async function Page({
   params: { courseid },
 }: {
-  params: { courseid: string[] };
+  params: { courseid: string };
 }) {
   const pb = serverPb();
 
-  const course = await pb.collection('courses').getOne(courseid[0]);
+  const course = await pb.collection('courses').getOne(courseid);
   const pages = await pb
     .collection('pages')
-    .getFullList({ filter: `course="${courseid[0]}"` });
+    .getFullList({ filter: `course="${courseid}"` });
 
   let isTeacher = false;
   try {
     await pb
       .collection('teachers')
       .getFirstListItem(
-        `course="${courseid[0]}" && user="${pb.authStore.model?.id}"`,
+        `course="${courseid}" && user="${pb.authStore.model?.id}"`,
       );
     isTeacher = true;
   } catch {}
@@ -62,7 +62,7 @@ export default async function Page({
                 <h1 className="text-4xl font-bold">{course.name}</h1>
                 {isTeacher && (
                   <Link
-                    href={`/edit/course/${courseid[0]}`}
+                    href={`/edit/course/${courseid}`}
                     className={
                       buttonVariants({ variant: 'outline' }) + ' flex gap-3'
                     }
