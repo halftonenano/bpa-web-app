@@ -16,7 +16,7 @@ export default function Question({
   const [correct, setCorrect] = useState('');
 
   return (
-    <div className='border rounded-md'>
+    <div className="rounded-md border">
       <CardHeader>
         <CardTitle>{question.question}</CardTitle>
       </CardHeader>
@@ -27,18 +27,18 @@ export default function Question({
               <button
                 className={cn(
                   'w-full border-b px-5 py-3 transition-colors hover:bg-neutral-200',
-                  answer === choice.id &&
+                  answer === choice.value &&
                     (correct === 'correct'
                       ? 'bg-green-500/30'
                       : 'bg-red-500/30'),
                 )}
                 onClick={async () => {
-                  setAnswer(choice.id);
+                  setAnswer(choice.value);
                   setCorrect(
                     (
                       await (
                         await fetch(
-                          `/api/quiz/grade/${quizid}/${questionindex}/${choice.id}`,
+                          `/api/quiz/grade/${quizid}/${questionindex}/${choice.value}`,
                           {
                             method: 'POST',
                           },
