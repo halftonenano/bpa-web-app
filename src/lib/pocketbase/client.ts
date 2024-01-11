@@ -8,3 +8,8 @@ pb.authStore.onChange((auth) => {
 });
 
 export { pb };
+
+export function signOut() {
+  pb.authStore.clear();
+  document.cookie = 'pb_auth=;expires=Thu, 01 Jan 1970 00:00:01 GMT';
+}

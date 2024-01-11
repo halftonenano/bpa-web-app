@@ -1,4 +1,5 @@
 import YoutubeEmbed from '@/components/YoutubeEmbed';
+import MarkdoneButton from '@/components/courses/MarkdoneButton';
 import '@/components/pages/markdown.css';
 import ServerSideQuiz from '@/components/quizzes/QuizServerSide';
 import { serverPb } from '@/lib/pocketbase/server';
@@ -39,6 +40,8 @@ export default async function Page({
             <ServerSideQuiz quizid={page.quiz} />
           </div>
         )}
+        <hr className='my-8' />
+        <MarkdoneButton pageid={pageid} />
       </div>
     </main>
   );

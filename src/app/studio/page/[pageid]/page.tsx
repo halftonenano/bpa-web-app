@@ -46,12 +46,12 @@ export default function Page({
                 {record && (
                   <>
                     <Button asChild variant="outline">
-                      <Link href={`/${record.course}/article/${record.id}`}>
+                      <Link href={`/${record.course}/page/${record.id}`}>
                         Go to Page
                       </Link>
                     </Button>
                     <Button asChild variant="outline">
-                      <Link href={`/edit/course/${record.course}`}>
+                      <Link href={`/studio/course/${record.course}`}>
                         Return to Editing Course
                       </Link>
                     </Button>

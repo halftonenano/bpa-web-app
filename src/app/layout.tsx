@@ -1,8 +1,7 @@
+import ToasterComponent from '@/components/ToasterComponent';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import ToasterComponent from '@/components/ToasterComponent';
-import AccountWidget from '@/components/AccountWidget';
 
 const inter = Inter({ subsets: ['latin'] });
 

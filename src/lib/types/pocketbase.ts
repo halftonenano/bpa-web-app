@@ -68,6 +68,7 @@ export type PagesRecord = {
 }
 
 export type QuizzesRecord<Tquestions = unknown> = {
+	course: RecordIdString
 	description?: string
 	questions: null | Tquestions
 	title: string

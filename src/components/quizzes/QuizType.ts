@@ -4,7 +4,7 @@ export type QuizType = {
   description: string;
   questions: {
     question: string;
-    choices: { id: string; value: string }[];
-    answer?: string;
+    choices: { value: string }[];
+    answer?: number;
   }[];
 };
