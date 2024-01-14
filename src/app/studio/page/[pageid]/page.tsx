@@ -37,11 +37,11 @@ export default function Page({
   console.log(record);
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="h-screen bg-neutral-50">
       {!isLoading ? (
         <>
-          <div className="sticky top-0 bg-white p-3 shadow-md">
-            <div className="flex items-center">
+          <div className="sticky top-0 -mb-px border-b bg-white">
+            <div className="flex h-14 items-center px-2">
               <div className="flex w-full items-center justify-end gap-3">
                 {record && (
                   <>
@@ -74,16 +74,11 @@ export default function Page({
               </div>
             </div>
           </div>
-          <div className="grid" style={{ gridTemplate: 'auto 1fr / 1fr 1fr' }}>
-            <div className="m-10 cursor-not-allowed rounded-xl border bg-white p-14 shadow-lg">
-              <div
-                className="markdown-content"
-                dangerouslySetInnerHTML={{
-                  __html: marked.parse(content),
-                }}
-              ></div>
-            </div>
-            <div className="h-full">
+          <div
+            className="grid h-[calc(100%_-_3.5rem)]"
+            style={{ gridTemplate: 'auto 1fr / 1fr 1fr' }}
+          >
+            <div className="h-full overflow-y-scroll">
               <div className="p-10 pb-0">
                 <div className="grid w-full max-w-sm items-center gap-1.5">
                   <Label htmlFor="title">Title</Label>
@@ -103,6 +98,16 @@ export default function Page({
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
+            </div>
+            <div className="h-full overflow-visible overflow-y-scroll p-10">
+              <div className="pointer-events-none rounded-xl border bg-white p-14 shadow-lg">
+                <div
+                  className="markdown-content"
+                  dangerouslySetInnerHTML={{
+                    __html: marked.parse(content),
+                  }}
+                ></div>
+              </div>
             </div>
           </div>
         </>

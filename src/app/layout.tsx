@@ -7,7 +7,12 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'LearnX',
-  description: 'For BPA',
+  description:
+    'LearnX Web is an innovative tutorial site made for the BPA Web Application Competition',
+  metadataBase: new URL('https://learnxweb.com'),
+  alternates: {
+    canonical: '/',
+  },
 };
 
 export default function RootLayout({

@@ -28,9 +28,6 @@ export default async function Page({
     isTeacher = true;
   } catch {}
 
-  console.log(course);
-  console.log(isTeacher);
-
   return (
     <div className="min-h-screen bg-neutral-50">
       <div className="border-b bg-white p-10">
@@ -61,14 +58,14 @@ export default async function Page({
               <div className="mt-5 flex gap-5">
                 <h1 className="text-4xl font-bold">{course.name}</h1>
                 {isTeacher && (
-                  <Link
-                    href={`/studio/course/${courseid}`}
-                    className={
-                      buttonVariants({ variant: 'outline' }) + ' flex gap-3'
-                    }
-                  >
-                    <Pencil size={18} /> Edit in Studio
-                  </Link>
+                  <Button variant="outline" asChild>
+                    <Link
+                      href={`/studio/course/${courseid}`}
+                      className="mt-px flex gap-2"
+                    >
+                      <Pencil size={18} /> Edit in Studio
+                    </Link>
+                  </Button>
                 )}
               </div>
               <p className="mt-2 text-neutral-600">{course.description}</p>
@@ -78,7 +75,7 @@ export default async function Page({
       </div>
       <div className="p-10">
         <div className="mx-auto max-w-6xl">
-          <ul className="rounded-lg border bg-white p-5">
+          <ul className="rounded-md border bg-white p-5">
             {pages.length > 0 ? (
               pages.map((page) => (
                 <Link

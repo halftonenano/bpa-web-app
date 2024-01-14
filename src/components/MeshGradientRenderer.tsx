@@ -5,7 +5,8 @@ import { useEffect, useId } from 'react';
 
 const gradient = new MeshGradient();
 const colors = ['#ecfccb', '#fff', '#bae6fd', '#d1fae5'];
-let i = 41;
+let i = 315;
+let initialized = false;
 
 export default function MeshGradientRenderer({
   className,
@@ -21,7 +22,10 @@ export default function MeshGradientRenderer({
   useEffect(() => {
     gradient.initGradient('#' + canvasId.replace(/:/g, ''), colors);
     gradient.setCanvasSize(width || 800, height || 800);
-    animate();
+    if (!initialized) {
+      initialized = true;
+      animate();
+    }
   }, []);
 
   return <canvas id={canvasId.replace(/:/g, '')} className={className || ''} />;

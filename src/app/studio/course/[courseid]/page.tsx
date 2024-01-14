@@ -78,7 +78,7 @@ export default function Page({
               >
                 ← return to courses
               </Link>
-              <div className="flex w-full items-end gap-8 pt-10">
+              <div className="flex w-full gap-8 pt-10">
                 {course.cover !== '' ? (
                   <img
                     className="h-60 w-60 rounded-md shadow-lg"
@@ -131,7 +131,7 @@ export default function Page({
                     </Button>
                   </div>
                   <ReactTextareaAutosize
-                    className="mt-5 w-full resize-none rounded-md border p-5 shadow-sm"
+                    className="mt-5 w-full resize-none rounded-[0.8rem] border p-5 shadow-sm"
                     placeholder="description"
                     value={course.description}
                     onChange={(e) =>

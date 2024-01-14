@@ -4,7 +4,14 @@ export type QuizType = {
   description: string;
   questions: {
     question: string;
-    choices: { value: string }[];
-    answer?: number;
+    choices: { id: string; value: string }[];
+    answer: string;
   }[];
+};
+
+export type GradeResponse = {
+  score: number;
+  possible: number;
+  correct: boolean[];
+  answers?: string[];
 };

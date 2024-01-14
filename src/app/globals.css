@@ -32,7 +32,7 @@
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
-    --radius: 0.5rem;
+    --radius: 1.5rem;
   }
 
   .dark {
@@ -56,4 +56,16 @@
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
   }
+}
+
+.streak {
+  @apply bg-gradient-to-r from-lime-100 to-sky-100;
+}
+
+.streak-bold {
+  @apply bg-gradient-to-r from-lime-200 to-sky-200;
+}
+
+.streak-text {
+  @apply inline-block bg-gradient-to-r to-lime-400 from-sky-400 bg-clip-text text-transparent font-bold;
 }

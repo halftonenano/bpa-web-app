@@ -11,6 +11,9 @@ export default async function Page() {
 
   return (
     <main>
+      <h2>My Courses</h2>
+      <hr className="my-5" />
+      <h2>Featured Courses</h2>
       <div className="flex flex-col gap-16 p-10 pt-40">
         {courses.map((course) => (
           <Link
