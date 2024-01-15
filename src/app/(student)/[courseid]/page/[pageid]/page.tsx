@@ -1,6 +1,6 @@
 import YoutubeEmbed from '@/components/YoutubeEmbed';
-import MarkdoneButton from '@/components/courses/MarkdoneButton';
-import MarkdownRendererWithSanitization from '@/components/pages/MarkdownRendererWithSanitization';
+import MarkdoneButton from '@/components/pages/MarkdoneButton';
+import SanitizedMarkdownRenderer from '@/components/pages/SanitizedMarkdownRenderer';
 import ServerSideQuiz from '@/components/quizzes/QuizServerSide';
 import { serverPb } from '@/lib/pocketbase/server';
 
@@ -28,16 +28,18 @@ export default async function Page({
           </>
         )}
 
-        <MarkdownRendererWithSanitization content={page.content} />
+        <SanitizedMarkdownRenderer content={page.content} />
 
-        {page.quiz && (
+        {page.quiz ? (
           <div>
-            <ServerSideQuiz quizid={page.quiz} />
+            <ServerSideQuiz quizid={page.quiz} pageid={pageid} />
           </div>
+        ) : (
+          <>
+            <hr className="my-8" />
+            <MarkdoneButton pageid={pageid} automark />
+          </>
         )}
-
-        <hr className="my-8" />
-        <MarkdoneButton pageid={pageid} automark />
       </div>
     </main>
   );

@@ -92,7 +92,7 @@ export default function Page() {
                 <Input
                   type="password"
                   id="password"
-                  placeholder='password'
+                  placeholder='Password'
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
@@ -107,7 +107,7 @@ export default function Page() {
                   <Input
                     type="password"
                     id="password-confirm"
-                    placeholder='confirm password'
+                    placeholder='Confirm password'
                     value={passwordConfirm}
                     onChange={(e) => {
                       setPasswordConfirm(e.target.value);

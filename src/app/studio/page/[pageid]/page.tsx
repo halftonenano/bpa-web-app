@@ -78,6 +78,16 @@ export default function Page({
             className="grid h-[calc(100%_-_3.5rem)]"
             style={{ gridTemplate: 'auto 1fr / 1fr 1fr' }}
           >
+            <div className="h-full overflow-visible overflow-y-scroll p-10">
+              <div className="pointer-events-none rounded-xl border bg-white p-14 shadow-lg">
+                <div
+                  className="markdown-content"
+                  dangerouslySetInnerHTML={{
+                    __html: marked.parse(content),
+                  }}
+                ></div>
+              </div>
+            </div>
             <div className="h-full overflow-y-scroll">
               <div className="p-10 pb-0">
                 <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -98,16 +108,6 @@ export default function Page({
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
-            </div>
-            <div className="h-full overflow-visible overflow-y-scroll p-10">
-              <div className="pointer-events-none rounded-xl border bg-white p-14 shadow-lg">
-                <div
-                  className="markdown-content"
-                  dangerouslySetInnerHTML={{
-                    __html: marked.parse(content),
-                  }}
-                ></div>
-              </div>
             </div>
           </div>
         </>

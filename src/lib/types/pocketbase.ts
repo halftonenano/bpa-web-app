@@ -58,6 +58,8 @@ export type CoursesRecord = {
 	color?: string
 	cover?: string
 	description: string
+	featured?: boolean
+	icon?: string
 	name: string
 	pages?: RecordIdString[]
 	public?: boolean

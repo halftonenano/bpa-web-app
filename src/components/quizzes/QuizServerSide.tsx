@@ -4,7 +4,13 @@ import { initAdminPb } from '@/lib/pocketbase/admin';
 import { unset } from 'lodash-es';
 import 'server-only';
 
-export default async function ServerSideQuiz({ quizid }: { quizid: string }) {
+export default async function ServerSideQuiz({
+  quizid,
+  pageid,
+}: {
+  quizid: string;
+  pageid?: string;
+}) {
   // Fetch full quiz data with admin client
   let quiz = (await (await initAdminPb())
     .collection('quizzes')
@@ -16,5 +22,5 @@ export default async function ServerSideQuiz({ quizid }: { quizid: string }) {
     return item;
   });
 
-  return <Quiz quiz={quiz} />;
+  return <Quiz quiz={quiz} pageid={pageid} />;
 }

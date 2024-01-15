@@ -16,7 +16,7 @@ import { cn } from '@/lib/utils';
 import { pb } from '@/lib/pocketbase/client';
 import toast from 'react-hot-toast';
 
-export default function EditSubmission({
+export default function SubmissionEditor({
   assignmentid,
 }: {
   assignmentid: string;

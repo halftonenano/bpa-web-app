@@ -1,14 +1,18 @@
 'use client';
 
+import CourseTile from '@/components/courses/CourseTile';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -23,12 +27,14 @@ import {
   UsersResponse,
 } from '@/lib/types/pocketbase';
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd';
-import { BookOpenCheck, Loader2 } from 'lucide-react';
+import { Loader2, Pencil } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { HexColorPicker } from 'react-colorful';
 import toast from 'react-hot-toast';
 import ReactTextareaAutosize from 'react-textarea-autosize';
+import StudioAssignmentsTab from './AssginmentsTab';
 
 export const runtime = 'edge';
 
@@ -78,22 +84,56 @@ export default function Page({
               >
                 ← return to courses
               </Link>
+
               <div className="flex w-full gap-8 pt-10">
-                {course.cover !== '' ? (
-                  <img
-                    className="h-60 w-60 rounded-md shadow-lg"
-                    src={pb.files.getUrl(course, course.cover, {
-                      thumb: '512x512',
-                    })}
-                  />
-                ) : (
-                  <div
-                    className="grid h-60 w-60 place-items-center rounded-md shadow-lg"
-                    style={{ backgroundColor: course.color }}
-                  >
-                    <BookOpenCheck size={60} className="opacity-70" />
-                  </div>
-                )}
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <button className="group relative transition hover:brightness-75">
+                      <CourseTile course={course} className="w-60">
+                        <Pencil className="absolute bottom-5 right-5 opacity-0 transition duration-300 group-hover:opacity-70" />
+                      </CourseTile>
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80 rounded-[0.7rem]">
+                    <div className="grid gap-4 p-2">
+                      <h4 className="font-bold">Edit Course Tile</h4>
+                      <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-3">
+                          <Label htmlFor="width">Icon</Label>
+                          <Input
+                            id="Icon"
+                            className="col-span-2 h-8"
+                            value={course.icon}
+                            onChange={(e) =>
+                              setCourse(
+                                (prev) =>
+                                  ({
+                                    ...prev,
+                                    icon: e.target.value,
+                                  }) as CoursesResponse,
+                              )
+                            }
+                            maxLength={2}
+                          />
+                        </div>
+                        <HexColorPicker
+                          className="mx-auto mt-5"
+                          color={course.color}
+                          onChange={(color) =>
+                            setCourse(
+                              (prev) =>
+                                ({
+                                  ...prev,
+                                  color,
+                                }) as CoursesResponse,
+                            )
+                          }
+                        />
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+
                 <div className="w-full">
                   <div className="mt-5 flex items-end gap-5">
                     <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -154,10 +194,13 @@ export default function Page({
               <Tabs defaultValue="content">
                 <TabsList>
                   <TabsTrigger value="content">Content</TabsTrigger>
+                  <TabsTrigger value="assignments">Assignments</TabsTrigger>
                   <TabsTrigger value="teachers">Teachers</TabsTrigger>
                 </TabsList>
+
+                <hr className="my-3" />
+
                 <TabsContent value="content">
-                  <hr className="my-3" />
                   <ul className="">
                     <Button
                       className="mb-4 w-full bg-neutral-50"
@@ -170,13 +213,17 @@ export default function Page({
                           title: 'Untitled Page',
                           content: '',
                         } satisfies PagesRecord);
-                        router.push(`/edit/article/${newPage.id}`);
+                        router.push(`/studio/page/${newPage.id}`);
                       }}
                     >
-                      {creatingPage && (
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      {creatingPage ? (
+                        <>
+                          Creating page...
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        </>
+                      ) : (
+                        '+ Create page'
                       )}
-                      + Create page
                     </Button>
 
                     <DragDropContext onDragEnd={(e) => console.log(e)}>
@@ -202,7 +249,10 @@ export default function Page({
                                   >
                                     {page.title}
                                     <Button asChild variant="outline">
-                                      <Link href={`/studio/page/${page.id}`}>
+                                      <Link
+                                        href={`/studio/page/${page.id}`}
+                                        prefetch={false}
+                                      >
                                         Edit
                                       </Link>
                                     </Button>
@@ -215,6 +265,9 @@ export default function Page({
                       </Droppable>
                     </DragDropContext>
                   </ul>
+                </TabsContent>
+                <TabsContent value="assignments">
+                  <StudioAssignmentsTab courseid={courseid} />
                 </TabsContent>
                 <TabsContent value="teachers">
                   <Table>

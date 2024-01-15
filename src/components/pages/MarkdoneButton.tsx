@@ -9,20 +9,25 @@ import toast from 'react-hot-toast';
 export default function MarkdoneButton({
   pageid,
   automark,
+  quizComplete,
 }: {
   pageid: string;
   automark?: boolean;
+  quizComplete?: boolean;
 }) {
   const [initialized, setInitialized] = useState(false);
   const [loading, setLoading] = useState(false);
   const [doneId, setDoneId] = useState('');
+  const [notEnrolled, setNotEnrolled] = useState(false);
 
   useEffect(() => {
     (async () => {
       try {
         const record = await pb
           .collection('completions')
-          .getFirstListItem(`page="${pageid}"`);
+          .getFirstListItem(
+            `page="${pageid} && user="${pb.authStore.model?.id}"`,
+          );
         setDoneId(record.id);
       } catch {
         if (automark) await markDone();
@@ -42,14 +47,18 @@ export default function MarkdoneButton({
       setLoading(false);
       setDoneId(record.id);
     } catch {
-      toast.error('Error marking page done');
+      setNotEnrolled(true);
     }
   }
 
   return (
     <>
       <Button
-        variant={doneId !== '' ? 'outline' : 'default'}
+        variant={
+          doneId !== '' || !initialized || quizComplete === false
+            ? 'outline'
+            : 'default'
+        }
         className="flex gap-2"
         onClick={async () => {
           if (!pb.authStore.model) return;
@@ -66,10 +75,17 @@ export default function MarkdoneButton({
             }
           }
         }}
-        disabled={!initialized || loading}
+        disabled={
+          !initialized ||
+          loading ||
+          notEnrolled ||
+          (quizComplete === false && doneId === '')
+        }
       >
         {!initialized ? (
           <Loader2 size={20} className="animate-spin" />
+        ) : notEnrolled ? (
+          'Enroll in the course to mark stuff done'
         ) : (
           <>
             {doneId !== ''
@@ -78,6 +94,8 @@ export default function MarkdoneButton({
                 : 'Unmark Done'
               : loading
               ? 'Marking Done...'
+              : quizComplete === false
+              ? 'Complete quiz to mark done'
               : 'Mark Done'}
             {loading ? (
               <Loader2 size={20} className="animate-spin" />

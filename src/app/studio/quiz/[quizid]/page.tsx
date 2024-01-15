@@ -10,6 +10,7 @@ import { pb } from '@/lib/pocketbase/client';
 import { PagesResponse, QuizzesResponse } from '@/lib/types/pocketbase';
 import { X } from 'lucide-react';
 import { marked } from 'marked';
+import { nanoid } from 'nanoid';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -37,47 +38,45 @@ export default function Page({
 
   return (
     <div className="min-h-screen bg-neutral-50">
-      {!isLoading ? (
+      {!isLoading && record ? (
         <>
           <div className="sticky top-0 bg-white p-3 shadow-md">
             <div className="flex items-center">
               <div className="flex w-full items-center justify-between gap-3">
-                {record && (
-                  <>
-                    <div className="ml-3 flex items-center gap-3">
-                      <h1 className="font-bold">Quiz</h1>
-                      <Input
-                        className="w-96"
-                        value={record.title}
-                        onChange={(e) => {
-                          setRecord({ ...record, title: e.target.value });
-                        }}
-                      />
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <Button asChild variant="outline">
-                        <Link href={`/studio/course/${record.course}`}>
-                          Return
-                        </Link>
-                      </Button>
-                      <Button
-                        onClick={async () => {
-                          if (!record) return;
-                          toast.promise(
-                            pb.collection('quizzes').update(quizid, record),
-                            {
-                              loading: 'Saving...',
-                              success: 'Saved!',
-                              error: 'Failed to Save',
-                            },
-                          );
-                        }}
-                      >
-                        Save
-                      </Button>
-                    </div>
-                  </>
-                )}
+                <>
+                  <div className="ml-3 flex items-center gap-3">
+                    <h1 className="font-bold">Quiz</h1>
+                    <Input
+                      className="w-96"
+                      value={record.title}
+                      onChange={(e) => {
+                        setRecord({ ...record, title: e.target.value });
+                      }}
+                    />
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Button asChild variant="outline">
+                      <Link href={`/studio/course/${record.course}`}>
+                        Return
+                      </Link>
+                    </Button>
+                    <Button
+                      onClick={async () => {
+                        if (!record) return;
+                        toast.promise(
+                          pb.collection('quizzes').update(quizid, record),
+                          {
+                            loading: 'Saving...',
+                            success: 'Saved!',
+                            error: 'Failed to Save',
+                          },
+                        );
+                      }}
+                    >
+                      Save
+                    </Button>
+                  </div>
+                </>
               </div>
             </div>
           </div>
@@ -85,114 +84,114 @@ export default function Page({
           <div className="p-10">
             <div className="mx-auto max-w-6xl rounded-lg border bg-white p-5">
               <div className="flex flex-col">
-                {record?.questions ? (
-                  (record.questions as QuizType['questions']).map(
-                    (question, i) => (
-                      <div key={i}>
-                        <div className="flex gap-3">
-                          <Input
-                            placeholder="Question"
-                            type="text"
-                            value={question.question}
-                            onChange={(e) => {
-                              let tempquestions =
-                                record.questions as QuizType['questions'];
-                              tempquestions[i].question = e.target.value;
-                              setRecord({
-                                ...record,
-                                questions: tempquestions,
-                              });
-                            }}
-                          />
-                          <Button
-                            variant="destructive"
-                            size="icon"
-                            onClick={() => {
-                              let tempquestions =
-                                record.questions as QuizType['questions'];
-                              tempquestions.splice(i, 1);
-                              setRecord({
-                                ...record,
-                                questions: tempquestions,
-                              });
-                            }}
-                          >
-                            <X size={18} />
-                          </Button>
-                        </div>
-                        <div className="mt-4 flex flex-col gap-3 border-l-4 pl-5">
-                          {question.choices.map((choice, k) => (
-                            <div className="flex items-center gap-1" key={k}>
-                              <Checkbox
-                                className="mr-3"
-                                checked={question.answer === k}
-                                onCheckedChange={(e) => {
-                                  let tempquestions =
-                                    record.questions as QuizType['questions'];
-                                  tempquestions[i].answer = k;
-                                  setRecord({
-                                    ...record,
-                                    questions: tempquestions,
-                                  });
-                                }}
-                              />
-                              <Input
-                                placeholder="Choice"
-                                type="text"
-                                value={choice.value}
-                                onChange={(e) => {
-                                  let tempquestions =
-                                    record.questions as QuizType['questions'];
-                                  tempquestions[i].choices[k].value =
-                                    e.target.value;
-                                  setRecord({
-                                    ...record,
-                                    questions: tempquestions,
-                                  });
-                                }}
-                              />
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => {
-                                  let tempquestions =
-                                    record.questions as QuizType['questions'];
-                                  tempquestions[i].choices.splice(k, 1);
-                                  setRecord({
-                                    ...record,
-                                    questions: tempquestions,
-                                  });
-                                }}
-                              >
-                                <X size={18} />
-                              </Button>
-                            </div>
-                          ))}
-                          <Button
-                            variant="secondary"
-                            onClick={(e) => {
-                              let tempquestions =
-                                record.questions as QuizType['questions'];
-                              tempquestions[i].choices = [
-                                ...tempquestions[i].choices,
-                                { value: '' },
-                              ];
-                              setRecord({
-                                ...record,
-                                questions: tempquestions,
-                              });
-                            }}
-                          >
-                            + Choice
-                          </Button>
-                        </div>
-                        <hr className="my-5" />
+                {(record.questions as QuizType['questions']).map(
+                  (question, i) => (
+                    // Render Questions
+                    <div key={i}>
+                      <div className="flex gap-3">
+                        <Input
+                          placeholder="Question"
+                          type="text"
+                          value={question.question}
+                          onChange={(e) => {
+                            let tempquestions =
+                              record.questions as QuizType['questions'];
+                            tempquestions[i].question = e.target.value;
+                            setRecord({
+                              ...record,
+                              questions: tempquestions,
+                            });
+                          }}
+                        />
+                        <Button
+                          variant="destructive"
+                          onClick={() => {
+                            let temp =
+                              record.questions as QuizType['questions'];
+                            temp.splice(i, 1);
+                            setRecord({
+                              ...record,
+                              questions: temp,
+                            });
+                          }}
+                        >
+                          <X size={18} />
+                        </Button>
                       </div>
-                    ),
-                  )
-                ) : (
-                  <></>
+
+                      <div className="streak-bold my-2 h-1"></div>
+
+                      <div className="mt-2 flex flex-col gap-3 border-l-4 pl-5">
+                        {question.choices.map((choice, k) => (
+                          <div className="flex items-center gap-1" key={k}>
+                            <Checkbox
+                            
+                              className="mr-3"
+                              checked={question.answer === choice.id}
+                              onCheckedChange={(e) => {
+                                let tempquestions =
+                                  record.questions as QuizType['questions'];
+                                tempquestions[i].answer = choice.id;
+                                setRecord({
+                                  ...record,
+                                  questions: tempquestions,
+                                });
+                              }}
+                            />
+                            <Input
+                              placeholder="Choice"
+                              type="text"
+                              value={choice.value}
+                              onChange={(e) => {
+                                let tempquestions =
+                                  record.questions as QuizType['questions'];
+                                tempquestions[i].choices[k].value =
+                                  e.target.value;
+                                setRecord({
+                                  ...record,
+                                  questions: tempquestions,
+                                });
+                              }}
+                            />
+                            <Button
+                              variant="ghost"
+                              onClick={() => {
+                                let tempquestions =
+                                  record.questions as QuizType['questions'];
+                                tempquestions[i].choices.splice(k, 1);
+                                setRecord({
+                                  ...record,
+                                  questions: tempquestions,
+                                });
+                              }}
+                            >
+                              <X size={18} />
+                            </Button>
+                          </div>
+                        ))}
+                        <Button
+                          variant="secondary"
+                          onClick={(e) => {
+                            let tempquestions =
+                              record.questions as QuizType['questions'];
+                            tempquestions[i].choices = [
+                              ...tempquestions[i].choices,
+                              { id: nanoid(), value: '' },
+                            ];
+                            setRecord({
+                              ...record,
+                              questions: tempquestions,
+                            });
+                          }}
+                        >
+                          + Choice
+                        </Button>
+                      </div>
+                      <hr className="my-5" />
+                    </div>
+                  ),
                 )}
+
                 <Button
                   onClick={() =>
                     setRecord({
@@ -202,6 +201,7 @@ export default function Page({
                         {
                           question: '',
                           choices: [],
+                          answer: '',
                         } satisfies QuizType['questions'][0],
                       ],
                     } as QuizzesResponse)

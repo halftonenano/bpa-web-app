@@ -7,8 +7,15 @@ import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import MarkdoneButton from '../pages/MarkdoneButton';
 
-export default function Quiz({ quiz }: { quiz: QuizType }) {
+export default function Quiz({
+  quiz,
+  pageid,
+}: {
+  quiz: QuizType;
+  pageid?: string;
+}) {
   const [selections, setSelections] = useState<string[]>(
     new Array(quiz.questions.length).map((i) => ''),
   );
@@ -103,6 +110,17 @@ export default function Quiz({ quiz }: { quiz: QuizType }) {
             </div>
           )}
         </div>
+      )}
+
+      {pageid && (
+        <>
+          <hr className="my-8" />
+          <MarkdoneButton
+            pageid={pageid}
+            quizComplete={score !== -1}
+            automark={score !== -1}
+          />
+        </>
       )}
     </>
   );

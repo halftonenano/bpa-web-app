@@ -2,7 +2,7 @@ import '@/components/pages/markdown.css';
 import { marked } from 'marked';
 import sanitizeHtml from 'sanitize-html';
 
-export default function MarkdownRendererWithSanitization({
+export default function SanitizedMarkdownRenderer({
   content,
 }: {
   content: string;

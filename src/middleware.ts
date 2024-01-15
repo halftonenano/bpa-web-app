@@ -28,6 +28,14 @@ export const config = {
   matcher: [
     {
       // source: '/((?!api|_next|favicon.ico).*)',
+      source: '/',
+      missing: [
+        { type: 'header', key: 'next-router-prefetch' },
+        { type: 'header', key: 'purpose', value: 'prefetch' },
+      ],
+    },
+    {
+      // source: '/((?!api|_next|favicon.ico).*)',
       source: '/studio/:path*',
       missing: [
         { type: 'header', key: 'next-router-prefetch' },

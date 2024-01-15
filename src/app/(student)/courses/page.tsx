@@ -1,53 +1,48 @@
 import { serverPb } from '@/lib/pocketbase/server';
-import { simplifyToSlug } from '@/lib/utils';
-import { BookOpenCheck } from 'lucide-react';
-import Link from 'next/link';
+import { Library, Star } from 'lucide-react';
+import ClientMyCourses from './ClientMyCourses';
+import CourseCard from './CourseCard';
 
 export const runtime = 'edge';
 
 export default async function Page() {
   const pb = serverPb();
-  const courses = await pb.collection('courses').getFullList();
+  const featured = await pb.collection('courses').getFullList({
+    filter: 'featured=true',
+  });
 
   return (
     <main>
-      <h2>My Courses</h2>
-      <hr className="my-5" />
-      <h2>Featured Courses</h2>
-      <div className="flex flex-col gap-16 p-10 pt-40">
-        {courses.map((course) => (
-          <Link
-            href={`/courses/${course.id}/${simplifyToSlug(course.name)}`}
-            key={course.id}
-          >
-            <div className="group flex gap-7 rounded-md border p-7 shadow-sm transition duration-200 hover:bg-neutral-100">
-              <div className="flex flex-shrink-0 flex-col gap-3">
-                <div className="-mt-16">
-                  {course.cover !== '' ? (
-                    <img
-                      className="h-40 w-40 rounded-md shadow-lg transition duration-300 ease-in-out group-hover:-translate-y-5 group-hover:shadow-2xl"
-                      src={pb.files.getUrl(course, course.cover, {
-                        thumb: '512x512',
-                      })}
-                    />
-                  ) : (
-                    <div
-                      className="grid h-40 w-40 place-items-center rounded-md shadow-lg transition duration-300 ease-in-out group-hover:-translate-y-5 group-hover:shadow-2xl"
-                      style={{ backgroundColor: course.color }}
-                    >
-                      <BookOpenCheck size={60} className="opacity-70" />
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold">{course.name}</h3>
-                <p className="text-neutral-600">{course.description}</p>
-              </div>
-            </div>
-          </Link>
-        ))}
+      <div className="min-h-[70vh] p-10">
+        <ShelfHeader icon={<Library size={35} />}>My Courses</ShelfHeader>
+        <div className="mt-5 flex flex-wrap gap-4">
+          <ClientMyCourses />
+        </div>
+      </div>
+      <hr className="" />
+      <div className="p-10">
+        <ShelfHeader icon={<Star size={33} />}>Featured Courses</ShelfHeader>
+        <div className="mt-5 flex flex-wrap gap-4">
+          {featured.map((course) => (
+            <CourseCard course={course} key={course.id} />
+          ))}
+        </div>
       </div>
     </main>
+  );
+}
+
+function ShelfHeader({
+  children,
+  icon,
+}: {
+  children: React.ReactNode;
+  icon: React.ReactNode;
+}) {
+  return (
+    <div className="flex items-center gap-3">
+      {icon}
+      <h2 className="text-2xl font-bold">{children}</h2>
+    </div>
   );
 }
