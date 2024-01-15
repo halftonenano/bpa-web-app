@@ -73,7 +73,7 @@ export default function Page() {
               {resultsCourse.map((course) => (
                 <li key={course.id}>
                   <Button variant="link" asChild>
-                    <Link href={`/course/${course.id}`}>{course.name}</Link>
+                    <Link href={`/courses/${course.id}`}>{course.name}</Link>
                   </Button>
                 </li>
               ))}
