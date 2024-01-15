@@ -3,6 +3,7 @@ import MarkdoneButton from '@/components/pages/MarkdoneButton';
 import SanitizedMarkdownRenderer from '@/components/pages/SanitizedMarkdownRenderer';
 import ServerSideQuiz from '@/components/quizzes/QuizServerSide';
 import { serverPb } from '@/lib/pocketbase/server';
+import { notFound } from 'next/navigation';
 
 export const runtime = 'edge';
 
@@ -11,7 +12,10 @@ export default async function Page({
 }: {
   params: { pageid: string };
 }) {
-  const page = await serverPb().collection('pages').getOne(pageid);
+  const page = await serverPb()
+    .collection('pages')
+    .getOne(pageid)
+    .catch(() => notFound());
 
   return (
     <main className="">

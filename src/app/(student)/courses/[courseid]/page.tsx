@@ -5,6 +5,7 @@ import { serverPb } from '@/lib/pocketbase/server';
 import { Pencil } from 'lucide-react';
 import Link from 'next/link';
 import ClientCourseTabs from './CourseTabs';
+import { notFound } from 'next/navigation';
 
 export const runtime = 'edge';
 
@@ -15,7 +16,10 @@ export default async function Page({
 }) {
   const pb = serverPb();
 
-  const course = await pb.collection('courses').getOne(courseid);
+  const course = await pb
+    .collection('courses')
+    .getOne(courseid)
+    .catch(() => notFound());
   const pages = await pb
     .collection('pages')
     .getFullList({ filter: `course="${courseid}"` });

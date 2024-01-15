@@ -2,6 +2,7 @@ import CourseCompletionBar from '@/components/courses/CourseCompletionBar';
 import { Button } from '@/components/ui/button';
 import { serverPb } from '@/lib/pocketbase/server';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 export const revalidate = 0;
 export const runtime = 'edge';
@@ -13,7 +14,10 @@ export default async function Page({
 }) {
   const pb = serverPb();
 
-  const course = await pb.collection('courses').getOne(courseid);
+  const course = await pb
+    .collection('courses')
+    .getOne(courseid)
+    .catch(() => notFound());
   const pages = await pb
     .collection('pages')
     .getFullList({ filter: `course="${courseid}"` });

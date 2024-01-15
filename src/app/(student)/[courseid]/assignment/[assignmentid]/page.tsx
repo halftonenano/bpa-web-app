@@ -1,5 +1,6 @@
 import SubmissionEditor from '@/components/assignments/SubmissionEditor';
 import { serverPb } from '@/lib/pocketbase/server';
+import { notFound } from 'next/navigation';
 
 export const runtime = 'edge';
 
@@ -10,9 +11,10 @@ export default async function Page({
 }) {
   const pb = serverPb();
 
-  const assignment = await pb.collection('assignments').getOne(assignmentid);
-
-  console.log(assignment);
+  const assignment = await pb
+    .collection('assignments')
+    .getOne(assignmentid)
+    .catch(() => notFound());
 
   return (
     <main className="">
@@ -29,7 +31,11 @@ export default async function Page({
 
         {pb.authStore.model?.id ? (
           <SubmissionEditor assignmentid={assignment.id} />
-        ): <div className='p-10 text-center font-bold bg-white border shadow-sm rounded-sm pointer-events-none'>You need to be signed in to submit assignments</div>}
+        ) : (
+          <div className="pointer-events-none rounded-sm border bg-white p-10 text-center font-bold shadow-sm">
+            You need to be signed in to submit assignments
+          </div>
+        )}
       </div>
     </main>
   );
