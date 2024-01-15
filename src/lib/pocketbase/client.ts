@@ -9,6 +9,8 @@ pb.authStore.onChange((auth) => {
   document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
 });
 
+pb.autoCancellation(false);
+
 export { pb };
 
 export function signOut() {

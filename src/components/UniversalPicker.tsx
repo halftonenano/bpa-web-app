@@ -1,7 +1,13 @@
 'use client';
 
 import * as React from 'react';
-import { Check, ChevronsUpDown, RefreshCcw, X } from 'lucide-react';
+import {
+  Check,
+  ChevronsUpDown,
+  ExternalLink,
+  RefreshCcw,
+  X,
+} from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -22,6 +28,7 @@ import { useEffect, useState } from 'react';
 import { pb } from '@/lib/pocketbase/client';
 import { RecordModel } from 'pocketbase';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 export default function UniversalPicker({
   type,
@@ -115,12 +122,19 @@ export default function UniversalPicker({
                   setOpen(false);
                 }}
               >
-                <Check
+                <Link
+                  href={`/studio/${
+                    type === 'assignments' ? 'assignment' : 'quiz'
+                  }/${item.id}`}
+                  target='_blank'
                   className={cn(
-                    'mr-2 h-4 w-4',
-                    value === item.value ? 'opacity-100' : 'opacity-0',
+                    type !== 'assignments' &&
+                      type !== 'quizzes' &&
+                      'pointer-events-none opacity-0',
                   )}
-                />
+                >
+                  <ExternalLink className="mr-2 h-4 w-4" />
+                </Link>
                 {item[property]}
               </CommandItem>
             ))}

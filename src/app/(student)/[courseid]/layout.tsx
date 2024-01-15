@@ -13,11 +13,11 @@ export default async function Layout({
   const course = await serverPb().collection('courses').getOne(courseid);
   const pages = await serverPb()
     .collection('pages')
-    .getFullList({ filter: `course="${courseid}"` });
+    .getFullList({ filter: `course="${courseid}"`, sort: '-updated' });
 
   return (
     <div className="grid" style={{ gridTemplate: '1fr / auto 1fr' }}>
-      <div className="sticky top-0 h-screen border-r shadow-inner">
+      <div className="sticky top-0 h-screen border-r shadow-inner w-[20rem]">
         <div className="p-10">
           <div className="text-xl font-bold">{course.name}</div>
           <Button asChild variant="outline" className="mt-2 w-full">

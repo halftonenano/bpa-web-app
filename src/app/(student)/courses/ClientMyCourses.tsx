@@ -25,9 +25,7 @@ export default function ClientMyCourses() {
       {courses.length === 0
         ? 'When you enroll in a course it will appear here!'
         : courses.map((course, index) => (
-            <>
-              <CourseCard course={course} key={index} />
-            </>
+            <CourseCard course={course} key={index} />
           ))}
     </>
   );

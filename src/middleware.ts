@@ -2,22 +2,17 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  // if (
-  //   request.nextUrl.pathname.startsWith('/signin') ||
-  //   request.nextUrl.pathname.startsWith('/home') ||
-  //   request.nextUrl.pathname.includes('/opengraph-image-')
-  // ) {
-  //   return NextResponse.next();
-  // }
-
   if (request.cookies.get('pb_auth')?.value !== undefined) {
     if (request.nextUrl.pathname === '/')
-      return NextResponse.redirect(new URL('/dashboard', request.url));
+      return NextResponse.redirect(new URL('/courses', request.url));
 
     return NextResponse.next();
   } else {
     if (request.nextUrl.pathname === '/')
       return NextResponse.rewrite(new URL('/home', request.url));
+    if (request.nextUrl.pathname.startsWith('/admin')) {
+      return NextResponse.redirect(new URL(`/admin/signin`, request.url));
+    }
     return NextResponse.redirect(
       new URL(`/signin/refresh?after=${request.nextUrl.pathname}`, request.url),
     );

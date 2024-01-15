@@ -40,7 +40,7 @@ export default function Question({
             >
               {choice.value}
               {correct !== undefined && selection === choice.id && (
-                <div className="rounded-full bg-white/50 px-2 py-0.5 text-xs shadow">
+                <div className="whitespace-nowrap rounded-full bg-white/50 px-2 py-0.5 text-xs shadow">
                   Your Answer
                 </div>
               )}

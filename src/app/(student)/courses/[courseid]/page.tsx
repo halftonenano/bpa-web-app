@@ -22,7 +22,7 @@ export default async function Page({
     .catch(() => notFound());
   const pages = await pb
     .collection('pages')
-    .getFullList({ filter: `course="${courseid}"` });
+    .getFullList({ filter: `course="${courseid}"`, sort: '-updated' });
   const assignments = await pb
     .collection('assignments')
     .getFullList({ filter: `course="${courseid}"` });
@@ -69,7 +69,15 @@ export default async function Page({
                     </Link>
                   </Button>
                 )}
-                <EnrollButton courseid={course.id} />
+                {pb.authStore.model?.id ? (
+                  <EnrollButton courseid={course.id} />
+                ) : (
+                  <Button variant="outline" asChild>
+                    <Link href={`/signin?after=/courses/${courseid}`}>
+                      Sign In
+                    </Link>
+                  </Button>
+                )}
               </div>
               <p className="mt-2 text-neutral-600">{course.description}</p>
             </div>

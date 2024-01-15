@@ -36,6 +36,9 @@ import toast from 'react-hot-toast';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 import StudioAssignmentsTab from './AssginmentsTab';
 import { simplifyToSlug } from '@/lib/utils';
+import { Switch } from '@/components/ui/switch';
+import { Checkbox } from '@/components/ui/checkbox';
+import TeachersEditor from './TeachersEditor';
 
 export const runtime = 'edge';
 
@@ -48,9 +51,6 @@ export default function Page({
 
   const [course, setCourse] = useState<CoursesResponse | null>(null);
   const [pages, setPages] = useState<PagesResponse[] | null>(null);
-  const [teachers, setTeachers] = useState<
-    TeachersResponse<{ user: UsersResponse }>[]
-  >([]);
   const [creatingPage, setCreatingPage] = useState(false);
 
   useEffect(() => {
@@ -61,17 +61,8 @@ export default function Page({
         toast.error(e.data.message);
       });
     pb.collection('pages')
-      .getFullList({ filter: `course="${courseid}"` })
+      .getFullList({ filter: `course="${courseid}"`, sort: '-updated' })
       .then((records) => setPages(records));
-    pb.collection('teachers')
-      .getFullList<TeachersResponse<{ user: UsersResponse }>>({
-        filter: `course="${courseid}"`,
-        expand: 'user',
-      })
-      .then((records) => {
-        console.log(records);
-        setTeachers(records);
-      });
   }, []);
 
   return (
@@ -156,6 +147,24 @@ export default function Page({
                         }
                       />
                     </div>
+
+                    <div className="flex h-fit items-center gap-2">
+                      <Checkbox
+                        id="public"
+                        checked={course.public}
+                        onCheckedChange={(e: boolean) => {
+                          setCourse(
+                            (prev) =>
+                              ({
+                                ...prev,
+                                public: e,
+                              }) as CoursesResponse,
+                          );
+                        }}
+                      />
+                      <Label htmlFor="public">Public</Label>
+                    </div>
+
                     <Button
                       variant="outline"
                       onClick={() => {
@@ -186,7 +195,10 @@ export default function Page({
                       )
                     }
                   />
-                  <p className="mt-2 text-neutral-600">{}</p>
+                  <p className="mt-2 text-neutral-600">
+                    Course Code:{' '}
+                    <span className="font-bold">{course.joinCode}</span>
+                  </p>
                 </div>
               </div>
             </div>
@@ -279,29 +291,7 @@ export default function Page({
                   <StudioAssignmentsTab courseid={courseid} />
                 </TabsContent>
                 <TabsContent value="teachers">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead className="w-[100px]">User ID</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Updated</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {teachers.map((teaching) => (
-                        <TableRow key={teaching.id}>
-                          <TableCell className="font-medium">
-                            {teaching.user}
-                          </TableCell>
-                          <TableCell className="font-medium">
-                            {teaching.expand?.user.email ||
-                              '[only viewable to admins]'}
-                          </TableCell>
-                          <TableCell>{teaching.updated}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
+                  <TeachersEditor courseid={courseid} />
                 </TabsContent>
               </Tabs>
             </div>

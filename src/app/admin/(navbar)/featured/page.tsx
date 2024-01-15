@@ -76,7 +76,7 @@ export default function Page() {
         <ShelfHeader icon={<Star size={33} />}>Featured Courses</ShelfHeader>
         <div className="mt-5 flex flex-wrap gap-4">
           {featured.map((course) => (
-            <>
+            <div key={course.id}>
               <div className="relative w-full">
                 <CourseCard course={course} key={course.id} />
                 <Button
@@ -107,7 +107,7 @@ export default function Page() {
                 </Button>
               </div>
               <hr className="my-3" />
-            </>
+            </div>
           ))}
         </div>
       </div>

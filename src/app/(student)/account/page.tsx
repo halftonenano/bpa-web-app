@@ -33,11 +33,12 @@ export default function Page() {
 
   return (
     <main className="p-10">
-      <div className="flex items-center gap-5">
-        <UserCircle size={50} strokeWidth={1.6} />
+      <div className="flex items-center gap-3">
+        <UserCircle size={30} />
         <h1 className="text-2xl font-bold">Account</h1>
         <Button
           className="flex items-center gap-2 px-5"
+          variant={'outline'}
           onClick={() => {
             signOut();
             router.push('/signin');
