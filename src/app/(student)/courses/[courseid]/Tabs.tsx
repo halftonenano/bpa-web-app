@@ -1,5 +1,6 @@
 'use client';
 
+import CourseCompletionBar from '@/components/courses/CourseCompletionBar';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { pb } from '@/lib/pocketbase/client';
@@ -13,7 +14,7 @@ import { simplifyToSlug } from '@/lib/utils';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 
-export default function CourseTabsClient({
+export default function ClientCourseTabs({
   course,
   pages,
   assignments,
@@ -54,28 +55,12 @@ export default function CourseTabsClient({
         {pages.length > 0 ? (
           <>
             <div className="mb-3 flex gap-3">
-              <div className="flex h-9 w-full items-center gap-3 rounded-full border px-4 text-sm shadow-sm">
-                {numberComplete === -1 ? (
-                  'loading...'
-                ) : (
-                  <>
-                    <div className="flex-shrink-0">
-                      Progress: {numberComplete} / {pages.length}
-                    </div>
-                    <div className="w-full">
-                      <div
-                        className="streak-bold h-1.5 rounded-full shadow-sm"
-                        style={{
-                          width: `${(numberComplete / pages.length) * 100}%`,
-                        }}
-                      ></div>
-                    </div>
-                    <div className="flex-shrink-0">
-                      {Math.round((numberComplete / pages.length) * 100)}%
-                    </div>
-                  </>
-                )}
-              </div>
+              <CourseCompletionBar
+                complete={numberComplete}
+                total={pages.length}
+                loading={numberComplete === -1}
+              />
+
               {pages.length === numberComplete && (
                 <Button variant="outline" asChild>
                   <Link href={`/courses/${course.id}/certificate`}>

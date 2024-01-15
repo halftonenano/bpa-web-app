@@ -192,11 +192,18 @@ export default function Page({
           <div className="p-10">
             <div className="mx-auto max-w-6xl rounded-lg border bg-white p-5">
               <Tabs defaultValue="content">
-                <TabsList>
-                  <TabsTrigger value="content">Content</TabsTrigger>
-                  <TabsTrigger value="assignments">Assignments</TabsTrigger>
-                  <TabsTrigger value="teachers">Teachers</TabsTrigger>
-                </TabsList>
+                <div className="flex gap-3">
+                  <TabsList>
+                    <TabsTrigger value="content">Content</TabsTrigger>
+                    <TabsTrigger value="assignments">Assignments</TabsTrigger>
+                    <TabsTrigger value="teachers">Teachers</TabsTrigger>
+                  </TabsList>
+                  <Button variant="outline" asChild>
+                    <Link href={`/studio/course/${course.id}/progress`}>
+                      Students & Progress
+                    </Link>
+                  </Button>
+                </div>
 
                 <hr className="my-3" />
 

@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { serverPb } from '@/lib/pocketbase/server';
 import { BookOpenCheck, Pencil } from 'lucide-react';
 import Link from 'next/link';
-import CourseTabsClient from './Tabs';
+import ClientCourseTabs from './Tabs';
 import EnrollButton from '@/components/courses/EnrollButton';
 import CourseTile from '@/components/courses/CourseTile';
 
@@ -70,7 +70,7 @@ export default async function Page({
       <div className="p-10">
         <div className="mx-auto max-w-6xl">
           <div className="rounded-md border bg-white p-5">
-            <CourseTabsClient
+            <ClientCourseTabs
               course={course}
               pages={pages}
               assignments={assignments}

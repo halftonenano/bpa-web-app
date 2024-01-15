@@ -44,9 +44,10 @@ export default function Page() {
                 variant="outline"
                 className="flex w-full gap-2 bg-white"
                 onClick={async () => {
-                  await pb
-                    .collection('users')
-                    .authWithOAuth2({ provider: 'google' });
+                  await pb.collection('users').authWithOAuth2({
+                    provider: 'google',
+                    createData: { emailVisibility: true },
+                  });
                   router.push('/courses');
                 }}
               >
@@ -59,7 +60,10 @@ export default function Page() {
                 onClick={async () => {
                   await pb
                     .collection('users')
-                    .authWithOAuth2({ provider: 'discord' });
+                    .authWithOAuth2({
+                      provider: 'discord',
+                      createData: { emailVisibility: true },
+                    });
                   router.push('/courses');
                 }}
               >
@@ -92,7 +96,7 @@ export default function Page() {
                 <Input
                   type="password"
                   id="password"
-                  placeholder='Password'
+                  placeholder="Password"
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
@@ -107,7 +111,7 @@ export default function Page() {
                   <Input
                     type="password"
                     id="password-confirm"
-                    placeholder='Confirm password'
+                    placeholder="Confirm password"
                     value={passwordConfirm}
                     onChange={(e) => {
                       setPasswordConfirm(e.target.value);

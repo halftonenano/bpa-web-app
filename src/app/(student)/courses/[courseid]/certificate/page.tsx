@@ -1,3 +1,4 @@
+import CourseCompletionBar from '@/components/courses/CourseCompletionBar';
 import { Button } from '@/components/ui/button';
 import { serverPb } from '@/lib/pocketbase/server';
 import Link from 'next/link';
@@ -30,22 +31,7 @@ export default async function Page({
       <main className="grid min-h-full place-items-center">
         <div className="text-center">
           You have not completed the course yet
-          <div className="my-4 flex h-9 w-full items-center gap-3 rounded-full border px-4 text-sm shadow-sm">
-            <div className="flex-shrink-0">
-              Progress: {complete} / {pages.length}
-            </div>
-            <div className="w-full">
-              <div
-                className="streak-bold h-1.5 rounded-full shadow-sm"
-                style={{
-                  width: `${(complete / pages.length) * 100}%`,
-                }}
-              ></div>
-            </div>
-            <div className="flex-shrink-0">
-              {Math.round((complete / pages.length) * 100)}%
-            </div>
-          </div>
+          <CourseCompletionBar complete={complete} total={pages.length} />
           <Button variant="outline" asChild>
             <Link href={`/courses/${course.id}`}>Return to course</Link>
           </Button>
