@@ -24,14 +24,20 @@ export default async function Page({
     .getFullList({ filter: `course="${courseid}"` });
 
   let isTeacher = false;
-  try {
-    await pb
-      .collection('teachers')
-      .getFirstListItem(
-        `course="${courseid}" && user="${pb.authStore.model?.id}"`,
-      );
+  // If the user is an admin automatically give them a link to studio
+  if (pb.authStore.isAdmin) {
     isTeacher = true;
-  } catch {}
+  } else {
+    // If not check if they are a teacher of the course
+    try {
+      await pb
+        .collection('teachers')
+        .getFirstListItem(
+          `course="${courseid}" && user="${pb.authStore.model?.id}"`,
+        );
+      isTeacher = true;
+    } catch {}
+  }
 
   return (
     <div className="min-h-screen bg-neutral-50">
@@ -44,7 +50,7 @@ export default async function Page({
             ← return to courses
           </Link>
           <div className="flex items-end gap-8 pt-10">
-            <CourseTile course={course} className='w-60' />
+            <CourseTile course={course} className="w-60" />
 
             <div>
               <div className="mt-5 flex gap-5">

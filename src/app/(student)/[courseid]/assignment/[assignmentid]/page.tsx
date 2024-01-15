@@ -1,6 +1,8 @@
 import SubmissionEditor from '@/components/assignments/SubmissionEditor';
 import { serverPb } from '@/lib/pocketbase/server';
 
+export const runtime = 'edge';
+
 export default async function Page({
   params: { assignmentid },
 }: {

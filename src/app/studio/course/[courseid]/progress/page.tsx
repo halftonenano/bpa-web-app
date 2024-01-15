@@ -10,9 +10,16 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { pb } from '@/lib/pocketbase/client';
-import { EnrollmentsResponse, UsersResponse } from '@/lib/types/pocketbase';
+import {
+  CompletionsResponse,
+  EnrollmentsResponse,
+  PagesResponse,
+  UsersResponse,
+} from '@/lib/types/pocketbase';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+
+export const runtime = 'edge';
 
 export default function Page({
   params: { courseid },
@@ -23,6 +30,14 @@ export default function Page({
     EnrollmentsResponse<{ user: UsersResponse }>[] | null
   >(null);
 
+  const [completions, setCompletions] = useState<CompletionsResponse[] | null>(
+    null,
+  );
+
+  const [pages, setPages] = useState<PagesResponse[] | null>(null);
+
+  const totalPossible = pages?.length || 0;
+
   useEffect(() => {
     pb.collection('enrollments')
       .getFullList<EnrollmentsResponse<{ user: UsersResponse }>>({
@@ -31,6 +46,20 @@ export default function Page({
       })
       .then((data) => setEnrollments(data))
       .catch(() => toast.error('Error fetching students.'));
+
+    pb.collection('completions')
+      .getFullList({
+        filter: `page.course="${courseid}"`,
+      })
+      .then((data) => setCompletions(data))
+      .catch(() => toast.error('Error fetching student completions.'));
+
+    pb.collection('pages')
+      .getFullList({
+        filter: `course="${courseid}"`,
+      })
+      .then((data) => setPages(data))
+      .catch(() => toast.error('Error fetching course pages.'));
   }, []);
 
   return (
@@ -40,7 +69,7 @@ export default function Page({
           <TableHeader>
             <TableRow>
               <TableHead className="w-[100px]">Student Email</TableHead>
-              <TableHead>Progress</TableHead>
+              <TableHead></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -50,7 +79,18 @@ export default function Page({
                 <TableRow key={user.id}>
                   <TableCell className="font-medium">{user.email}</TableCell>
                   <TableCell>
-                    <CourseCompletionBar complete={0} total={5} />
+                    {completions ? (
+                      <CourseCompletionBar
+                        complete={
+                          completions.filter(
+                            (completion) => completion.user === user.id,
+                          ).length
+                        }
+                        total={totalPossible}
+                      />
+                    ) : (
+                      'loading progress...'
+                    )}
                   </TableCell>
                 </TableRow>
               ))}
