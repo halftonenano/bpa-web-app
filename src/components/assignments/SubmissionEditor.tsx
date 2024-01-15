@@ -73,7 +73,7 @@ export default function SubmissionEditor({
                     </span>
                   )}
                   {fileDescriptions.map((file, index) => (
-                    <li className="flex w-full items-start justify-between gap-2 px-3 py-1.5 hover:bg-neutral-100">
+                    <li className="flex w-full items-start justify-between gap-2 px-3 py-1.5 hover:bg-neutral-100" key={index}>
                       <div className="pointer-events-none flex w-[calc(100%_-_3rem)] gap-2 whitespace-pre-line break-words pr-3 text-sm">
                         <FileText
                           className="mt-0.5 flex-shrink-0"

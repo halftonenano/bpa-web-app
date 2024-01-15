@@ -2,19 +2,28 @@
 
 import '@/components/pages/markdown.css';
 import { QuizType } from '@/components/quizzes/QuizType';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { pb } from '@/lib/pocketbase/client';
-import { PagesResponse, QuizzesResponse } from '@/lib/types/pocketbase';
-import { X } from 'lucide-react';
-import { marked } from 'marked';
+import { QuizzesResponse } from '@/lib/types/pocketbase';
+import { Trash2, X } from 'lucide-react';
 import { nanoid } from 'nanoid';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import ReactTextareaAutosize from 'react-textarea-autosize';
 
 export const runtime = 'edge';
 
@@ -31,16 +40,19 @@ export default function Page({
       .then((value) => {
         setRecord(value);
         setIsLoading(false);
+      })
+      .catch((e) => {
+        toast.error(e.data.message);
       });
   }, []);
 
-  console.log(record);
+  const router = useRouter();
 
   return (
     <div className="min-h-screen bg-neutral-50">
       {!isLoading && record ? (
         <>
-          <div className="sticky top-0 bg-white p-3 shadow-md">
+          <div className="sticky top-16 bg-white p-3 shadow-md">
             <div className="flex items-center">
               <div className="flex w-full items-center justify-between gap-3">
                 <>
@@ -60,6 +72,7 @@ export default function Page({
                         Return
                       </Link>
                     </Button>
+
                     <Button
                       onClick={async () => {
                         if (!record) return;
@@ -75,6 +88,52 @@ export default function Page({
                     >
                       Save
                     </Button>
+
+                    <AlertDialog>
+                      <Button className="w-fit" variant="destructive" asChild>
+                        <AlertDialogTrigger className="w-fit">
+                          <Trash2 size={18} />
+                        </AlertDialogTrigger>
+                      </Button>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Delete Page</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action cannot be undone.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={() => {
+                              toast.promise(
+                                new Promise<void>(async (resolve, reject) => {
+                                  try {
+                                    await pb
+                                      .collection('quizzes')
+                                      .delete(quizid);
+                                  } catch {
+                                    reject();
+                                  }
+                                  await router.push(
+                                    `/studio/course/${record?.course}`,
+                                  );
+                                  resolve();
+                                }),
+                                {
+                                  loading: 'Deleting quiz...',
+                                  success: `Quiz deleted!`,
+                                  error: 'Something went wrong',
+                                },
+                                { duration: 10000 },
+                              );
+                            }}
+                          >
+                            Continue
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </div>
                 </>
               </div>
@@ -119,13 +178,12 @@ export default function Page({
                         </Button>
                       </div>
 
-                      <div className="streak-bold my-2 h-1"></div>
+                      <div className="my-2 h-1"></div>
 
                       <div className="mt-2 flex flex-col gap-3 border-l-4 pl-5">
                         {question.choices.map((choice, k) => (
                           <div className="flex items-center gap-1" key={k}>
                             <Checkbox
-                            
                               className="mr-3"
                               checked={question.answer === choice.id}
                               onCheckedChange={(e) => {

@@ -8,9 +8,9 @@ export default async function Page({
 }: {
   params: { assignmentid: string };
 }) {
-  const assignment = await serverPb()
-    .collection('assignments')
-    .getOne(assignmentid);
+  const pb = serverPb();
+
+  const assignment = await pb.collection('assignments').getOne(assignmentid);
 
   console.log(assignment);
 
@@ -27,7 +27,9 @@ export default async function Page({
           {assignment.description}
         </div>
 
-        <SubmissionEditor assignmentid={assignment.id} />
+        {pb.authStore.model?.id ? (
+          <SubmissionEditor assignmentid={assignment.id} />
+        ): <div className='p-10 text-center font-bold bg-white border shadow-sm rounded-sm pointer-events-none'>You need to be signed in to submit assignments</div>}
       </div>
     </main>
   );

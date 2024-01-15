@@ -32,6 +32,6 @@ export async function POST(
     score,
     possible: quiz.questions.length,
     correct,
-    answers,
+    // answers,
   } satisfies GradeResponse);
 }

@@ -11,25 +11,24 @@ export default function ClientMyCourses() {
   useEffect(() => {
     pb.collection('enrollments')
       .getFullList<EnrollmentsResponse<{ course: CoursesResponse }>>({
+        filter: `user="${pb.authStore.model?.id}"`,
         expand: 'course',
       })
       .then((data) =>
-        setCourses(
-          data
-            .filter((enrollment) => !!enrollment.expand)
-            .map((enrollment) => enrollment.expand!.course),
-        ),
+        setCourses(data.map((enrollment) => enrollment.expand!.course)),
       );
   }, []);
 
   if (!courses) return 'Fetching your courses...';
   return (
     <>
-      {courses.map((course, index) => (
-        <>
-          <CourseCard course={course} key={index} />
-        </>
-      ))}
+      {courses.length === 0
+        ? 'When you enroll in a course it will appear here!'
+        : courses.map((course, index) => (
+            <>
+              <CourseCard course={course} key={index} />
+            </>
+          ))}
     </>
   );
 }

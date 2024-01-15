@@ -4,6 +4,7 @@ import { pb } from '@/lib/pocketbase/client';
 import { CoursesResponse } from '@/lib/types/pocketbase';
 import { useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
+import { Input } from '../ui/input';
 
 export default function FullSiteSearch() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -23,5 +24,19 @@ export default function FullSiteSearch() {
 
   console.log(resultsCourse);
 
-  return <div className=""></div>;
+  return (
+    <div className="p-10">
+      <Input
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      <div>
+        <ul>
+          {resultsCourse.map((course) => (
+            <li>{course.name}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
 }

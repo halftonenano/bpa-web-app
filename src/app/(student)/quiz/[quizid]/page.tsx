@@ -1,4 +1,5 @@
 import Quiz from '@/components/quizzes/Quiz';
+import ServerSideQuiz from '@/components/quizzes/QuizServerSide';
 import { QuizType } from '@/components/quizzes/QuizType';
 import { initAdminPb } from '@/lib/pocketbase/admin';
 import { serverPb } from '@/lib/pocketbase/server';
@@ -20,17 +21,5 @@ export default async function Page({
     notFound();
   }
 
-  // Fetch full quiz data with admin client
-  let quiz = (await (await initAdminPb())
-    .collection('quizzes')
-    .getOne(quizid)) as QuizType;
-
-  quiz.questions = quiz.questions.map((item) => {
-    unset(item, 'answer');
-    return item;
-  });
-
-  console.log(quiz);
-
-  return <Quiz quiz={quiz} />;
+  return <ServerSideQuiz quizid={quizid} />;
 }

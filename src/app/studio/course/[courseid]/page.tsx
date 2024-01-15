@@ -35,6 +35,7 @@ import { HexColorPicker } from 'react-colorful';
 import toast from 'react-hot-toast';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 import StudioAssignmentsTab from './AssginmentsTab';
+import { simplifyToSlug } from '@/lib/utils';
 
 export const runtime = 'edge';
 
@@ -55,7 +56,10 @@ export default function Page({
   useEffect(() => {
     pb.collection('courses')
       .getOne(courseid)
-      .then((record) => setCourse(record));
+      .then((record) => setCourse(record))
+      .catch((e) => {
+        toast.error(e.data.message);
+      });
     pb.collection('pages')
       .getFullList({ filter: `course="${courseid}"` })
       .then((records) => setPages(records));
@@ -70,8 +74,6 @@ export default function Page({
       });
   }, []);
 
-  console.log(teachers);
-
   return (
     <div className="min-h-screen bg-neutral-50">
       {course && pages ? (
@@ -80,9 +82,9 @@ export default function Page({
             <div className="mx-auto max-w-6xl">
               <Link
                 className="text-sm text-neutral-600 underline-offset-2 hover:underline"
-                href="/courses"
+                href={`/courses/${course.id}/${simplifyToSlug(course.name)}`}
               >
-                ← return to courses
+                ← return to student view
               </Link>
 
               <div className="flex w-full gap-8 pt-10">

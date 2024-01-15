@@ -39,6 +39,9 @@ export default function Page({
       .then((value) => {
         setRecord(value);
         setIsLoading(false);
+      })
+      .catch((e) => {
+        toast.error(e.data.message);
       });
   }, []);
 
@@ -48,7 +51,7 @@ export default function Page({
     <div className="h-screen bg-neutral-50">
       {!isLoading && record ? (
         <>
-          <div className="sticky top-0 -mb-px border-b bg-white">
+          <div className="sticky top-16 -mb-px border-b bg-white">
             <div className="flex h-14 items-center px-2">
               <div className="flex w-full items-center justify-end gap-3">
                 <Button asChild variant="outline">

@@ -1,10 +1,10 @@
+import CourseTile from '@/components/courses/CourseTile';
+import EnrollButton from '@/components/courses/EnrollButton';
 import { Button } from '@/components/ui/button';
 import { serverPb } from '@/lib/pocketbase/server';
-import { BookOpenCheck, Pencil } from 'lucide-react';
+import { Pencil } from 'lucide-react';
 import Link from 'next/link';
-import ClientCourseTabs from './Tabs';
-import EnrollButton from '@/components/courses/EnrollButton';
-import CourseTile from '@/components/courses/CourseTile';
+import ClientCourseTabs from './CourseTabs';
 
 export const runtime = 'edge';
 
@@ -55,7 +55,7 @@ export default async function Page({
             <div>
               <div className="mt-5 flex gap-5">
                 <h1 className="text-4xl font-bold">{course.name}</h1>
-                {isTeacher ? (
+                {isTeacher && (
                   <Button variant="outline" asChild>
                     <Link
                       href={`/studio/course/${courseid}`}
@@ -64,9 +64,8 @@ export default async function Page({
                       <Pencil size={18} /> Edit in Studio
                     </Link>
                   </Button>
-                ) : (
-                  <EnrollButton courseid={course.id} />
                 )}
+                <EnrollButton courseid={course.id} />
               </div>
               <p className="mt-2 text-neutral-600">{course.description}</p>
             </div>

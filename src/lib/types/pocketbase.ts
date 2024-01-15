@@ -10,7 +10,6 @@ export enum Collections {
 	Completions = "completions",
 	Courses = "courses",
 	Enrollments = "enrollments",
-	Featured = "featured",
 	Pages = "pages",
 	Quizzes = "quizzes",
 	Secrets = "secrets",
@@ -56,12 +55,11 @@ export type CompletionsRecord = {
 
 export type CoursesRecord = {
 	color?: string
-	cover?: string
 	description: string
 	featured?: boolean
 	icon?: string
+	joinCode?: string
 	name: string
-	pages?: RecordIdString[]
 	public?: boolean
 }
 
@@ -70,11 +68,8 @@ export type EnrollmentsRecord = {
 	user: RecordIdString
 }
 
-export type FeaturedRecord = {
-	course: RecordIdString
-}
-
 export type PagesRecord = {
+	assignment?: RecordIdString
 	content?: string
 	course: RecordIdString
 	quiz?: RecordIdString
@@ -85,6 +80,7 @@ export type PagesRecord = {
 export type QuizzesRecord<Tquestions = unknown> = {
 	course: RecordIdString
 	description?: string
+	hideAnswers?: boolean
 	questions: null | Tquestions
 	title: string
 }
@@ -115,7 +111,6 @@ export type AssignmentsResponse<Texpand = unknown> = Required<AssignmentsRecord>
 export type CompletionsResponse<Texpand = unknown> = Required<CompletionsRecord> & BaseSystemFields<Texpand>
 export type CoursesResponse<Texpand = unknown> = Required<CoursesRecord> & BaseSystemFields<Texpand>
 export type EnrollmentsResponse<Texpand = unknown> = Required<EnrollmentsRecord> & BaseSystemFields<Texpand>
-export type FeaturedResponse<Texpand = unknown> = Required<FeaturedRecord> & BaseSystemFields<Texpand>
 export type PagesResponse<Texpand = unknown> = Required<PagesRecord> & BaseSystemFields<Texpand>
 export type QuizzesResponse<Tquestions = unknown, Texpand = unknown> = Required<QuizzesRecord<Tquestions>> & BaseSystemFields<Texpand>
 export type SecretsResponse<Texpand = unknown> = Required<SecretsRecord> & BaseSystemFields<Texpand>
@@ -130,7 +125,6 @@ export type CollectionRecords = {
 	completions: CompletionsRecord
 	courses: CoursesRecord
 	enrollments: EnrollmentsRecord
-	featured: FeaturedRecord
 	pages: PagesRecord
 	quizzes: QuizzesRecord
 	secrets: SecretsRecord
@@ -144,7 +138,6 @@ export type CollectionResponses = {
 	completions: CompletionsResponse
 	courses: CoursesResponse
 	enrollments: EnrollmentsResponse
-	featured: FeaturedResponse
 	pages: PagesResponse
 	quizzes: QuizzesResponse
 	secrets: SecretsResponse
@@ -161,7 +154,6 @@ export type TypedPocketBase = PocketBase & {
 	collection(idOrName: 'completions'): RecordService<CompletionsResponse>
 	collection(idOrName: 'courses'): RecordService<CoursesResponse>
 	collection(idOrName: 'enrollments'): RecordService<EnrollmentsResponse>
-	collection(idOrName: 'featured'): RecordService<FeaturedResponse>
 	collection(idOrName: 'pages'): RecordService<PagesResponse>
 	collection(idOrName: 'quizzes'): RecordService<QuizzesResponse>
 	collection(idOrName: 'secrets'): RecordService<SecretsResponse>

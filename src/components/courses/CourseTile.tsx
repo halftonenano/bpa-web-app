@@ -1,6 +1,9 @@
+'use client';
+
 import { CoursesResponse } from '@/lib/types/pocketbase';
 import { cn } from '@/lib/utils';
 import { BookOpenCheck } from 'lucide-react';
+import Twemoji from 'react-twemoji';
 
 export default function CourseTile({
   course,
@@ -23,9 +26,11 @@ export default function CourseTile({
         }}
       >
         {course.icon ? (
-          <div className={cn(isASCII(course.icon) && 'opacity-70')}>
-            {course.icon}
-          </div>
+          <Twemoji options={{ className: 'w-14' }}>
+            <div className={cn(isASCII(course.icon) && 'opacity-70')}>
+              {course.icon}
+            </div>
+          </Twemoji>
         ) : (
           <BookOpenCheck size={55} className="opacity-70" />
         )}

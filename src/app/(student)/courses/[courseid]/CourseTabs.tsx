@@ -102,7 +102,10 @@ export default function ClientCourseTabs({
         {assignments.length > 0 ? (
           <ul>
             {assignments.map((assignment) => (
-              <Link href={`/${course.id}/assignment/${assignment.id}`}>
+              <Link
+                href={`/${course.id}/assignment/${assignment.id}`}
+                key={assignment.id}
+              >
                 <li
                   className="rounded-[0.8rem] border p-5 pl-8 shadow-sm transition hover:bg-neutral-100"
                   key={assignment.id}

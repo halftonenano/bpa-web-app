@@ -16,8 +16,8 @@ export default async function Layout({
             className="rotate-180 text-xl"
             style={{ writingMode: 'vertical-rl' }}
           >
-            <Link href="/studio">
-              <b className="font-black">LearnX</b> STUDIO
+            <Link href="/admin">
+              <b className="font-black">LearnX</b> ADMIN
             </Link>
           </div>
         </div>

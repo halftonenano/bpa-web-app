@@ -1,6 +1,8 @@
 import PocketBase from 'pocketbase';
 import { TypedPocketBase } from '../types/pocketbase';
 
+// Initialize a pocketbase instance on the client
+
 const pb = new PocketBase(process.env.NEXT_PUBLIC_API_URL) as TypedPocketBase;
 
 pb.authStore.onChange((auth) => {

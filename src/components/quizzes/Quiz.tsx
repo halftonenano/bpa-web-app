@@ -59,7 +59,6 @@ export default function Quiz({
               const data = (await (
                 await fetch(`/api/quiz/grade/${quiz.id}`, {
                   method: 'POST',
-                  cache: 'no-cache',
                   headers: {
                     'Content-Type': 'application/json',
                   },
