@@ -1,11 +1,10 @@
-import { Library } from 'lucide-react';
-import ShelfHeader from '../(student)/courses/CourseShelfHeader';
-import { pb } from '@/lib/pocketbase/client';
 import { serverPb } from '@/lib/pocketbase/server';
 import { CoursesResponse, TeachersResponse } from '@/lib/types/pocketbase';
+import { Library } from 'lucide-react';
 import CourseCard from '../(student)/courses/CourseCard';
-import { Button } from '@/components/ui/button';
 import CreateCourseButton from './CreateCourseButton';
+
+export const runtime = 'edge';
 
 export default async function Page() {
   const pb = serverPb();
